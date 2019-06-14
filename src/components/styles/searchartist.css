@@ -1,0 +1,13 @@
+.title-form {
+    display: flex;
+    flex-flow: row wrap;
+    margin:0 10px;
+}
+
+
+.form-search {
+    display: flex;
+    width: 50%;
+    margin: 20px 0px;
+    padding: 0px 10px;
+}
