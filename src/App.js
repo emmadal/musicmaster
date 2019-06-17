@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMusic } from "@fortawesome/free-solid-svg-icons";
-import { Form, Input, Button, Container, Row, Col } from "reactstrap";
+import { Form, Input, Button, Container, Row, Col, Spinner } from "reactstrap";
 import "./components/styles/searchartist.css";
 import "./App.css";
 import axios from "axios";
@@ -10,13 +10,14 @@ import AlbumList from "./components/AlbumList";
 export default function App() {
   const [artistname, ArtistName] = useState("");
   const [artistdata, setArtistData] = useState([]);
+  const [req, setReq] = useState(0);
 
   const handleArtistName = e => {
-    e.preventDefault();
     ArtistName(e.target.value);
   };
 
-  const searchAlbum = async () => {
+  const searchAlbum = async e => {
+    e.preventDefault();
     const api = await axios({
       method: "GET",
       url: `https://deezerdevs-deezer.p.rapidapi.com/search?q=${artistname}`,
@@ -26,10 +27,8 @@ export default function App() {
       }
     });
     setArtistData(api.data.data);
+    setReq(api.status);
   };
-
-  console.log(artistdata)
-
   return (
     <>
       <Container fluid>
@@ -39,7 +38,10 @@ export default function App() {
               <FontAwesomeIcon icon={faMusic} size="3x" spin />
               <h1 className="h1-responsive mx-3">Music master</h1>
             </div>
-            <Form className="form-search">
+            <Form
+              className="form-search"
+              onSubmit={artistname !== "" ? searchAlbum : ""}
+            >
               <Input
                 name="artistname"
                 type="text"
@@ -47,7 +49,7 @@ export default function App() {
                 placeholder="Artist name"
                 onChange={handleArtistName}
               />
-              <Button color="primary" onClick={searchAlbum} onKeyUp={searchAlbum} className="mx-1">
+              <Button color="primary" type="submit" className="mx-1">
                 Search
               </Button>
             </Form>
@@ -55,7 +57,22 @@ export default function App() {
           </Col>
         </Row>
       </Container>
-      <AlbumList artistname={artistname} datamusic={artistdata} />
+      <Container className="container-spinner mt-5">
+        <Row>
+          <Col sm="12">
+            {req !== 200 ? (
+              <Spinner
+                color="info"
+                type="border"
+                style={{ width: "8rem", height: "8rem" }}
+              />
+            ) : (
+              ""
+            )}
+          </Col>
+        </Row>
+      </Container>
+      <AlbumList datamusic={artistdata} />
     </>
   );
 }
