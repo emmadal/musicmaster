@@ -17,7 +17,7 @@ export default function AlbumList(props) {
                   title={m.title}
                 />
                 <section className="tools-play audio-zone">
-                  <audio controls src={m.preview} />
+                  <audio controls src={m.preview} title="Start preview"/>
                 </section>
               </div>
             ))}
