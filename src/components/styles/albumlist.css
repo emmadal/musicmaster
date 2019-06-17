@@ -1,0 +1,23 @@
+.album-cover{
+    width: auto;
+    height: 200px;
+    object-fit: cover;
+}
+
+.music-div{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+.album-div {
+    border: 3px solid #3d3d3d;
+    margin: 10px;
+    max-width: 200px;
+}
+
+.tools-play{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    padding: 0px 2px;
+}
